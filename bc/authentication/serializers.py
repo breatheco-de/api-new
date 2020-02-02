@@ -148,9 +148,11 @@ class UserRegisterSerializer(serializers.Serializer):
     def validate(self, data):
 
         user = User.objects.filter(email=data["email"]).first()
+        if user is not None:
+            raise serializers.ValidationError("The user already exists")
+
         if len(data["email"]) > 150:
-            raise serializers.ValidationError(
-                "You email cannot contain more than 150 characters")
+            raise serializers.ValidationError("You email cannot contain more than 150 characters")
 
         if len(data["password"]) < 8:
             raise serializers.ValidationError("Password must be at least 8 characters long")

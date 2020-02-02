@@ -3,7 +3,7 @@ from django.db.models import Q, F
 from django.http import HttpResponse
 from django.utils import timezone
 from jwt.exceptions import DecodeError, ExpiredSignatureError
-from bc.utils.notifier import get_template_content
+from bc.utils.notifier import send_email
 
 from rest_framework import status
 from rest_framework.exceptions import PermissionDenied
@@ -231,6 +231,13 @@ class ValidateSendEmailView(APIView):
                 return Response(validators.error_object('This user is already validated'),
                                 status=status.HTTP_400_BAD_REQUEST)
 
-        notify_email_validation(user)
+        #notify_email_validation(user)
 
+        return Response({"details": "The email was sent"}, status=status.HTTP_200_OK)
+
+class TestEmailView(APIView):
+    permission_classes=[AllowAny]
+
+    def get(self, request):
+        send_email("registration", "aalejo@gmail.com")
         return Response({"details": "The email was sent"}, status=status.HTTP_200_OK)

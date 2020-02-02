@@ -2,7 +2,7 @@ from django.urls import include, path
 from rest_framework_jwt.views import ObtainJSONWebToken
 from .serializers import CustomJWTSerializer
 from .views import (
-    PasswordView, ValidateEmailView, UserView, UserRegisterView, ValidateSendEmailView
+    PasswordView, ValidateEmailView, UserView, UserRegisterView, ValidateSendEmailView, TestEmailView
 )
 
 urlpatterns = [
@@ -15,5 +15,7 @@ urlpatterns = [
     path('user/email/validate',ValidateEmailView.as_view(), name="validate-email"),
     path('user/email/validate/send/<str:email>', ValidateSendEmailView.as_view(), name="validate-email-send"),
     path('user/<int:id>', UserView.as_view(), name="id-user"),
-    path('user/register', UserRegisterView.as_view(), name="register")
+    path('user/register', UserRegisterView.as_view(), name="register"),
+    
+    path('test_email', TestEmailView.as_view(), name="test-email"),
 ]
